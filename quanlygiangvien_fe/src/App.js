@@ -6,9 +6,10 @@ import DashBroardBanDaoTao from "./layout/DashBroardBanDaoTao";
 import QuanLyCoSo from "./components/quanlycoso/QuanLyCoSo";
 import QuanLyMonHoc from "./components/quanlymonhoc/QuanLyMonHoc";
 import QuanLyHocKy from "./components/quanlyhocky/QuanLyHocKy";
-import QuanLyNhanVien from "./components/quanlynhanvien/QuanLyNhanVien";
+import QuanLyNhanVien from "./components/quanlynhanvien/layout/QuanLyNhanVien";
 import QuanLyBoMon from "./components/quanlybomon/QuanLyBoMon";
 import QuanLyChucVu from "./components/quanlychucvu/QuanLyChucVu";
+import AddOrUpdateNhanVien from "./components/quanlynhanvien/layout/AddOrUpdateNhanVien";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
                     </DashBroardBanDaoTao>
                 }
             />
+            {/*START QLNV*/}
             <Route
                 path="/bandaotao/quan-ly-nhan-vien"
                 element={
@@ -49,7 +51,19 @@ function App() {
                         <QuanLyNhanVien/>
                     </DashBroardBanDaoTao>
                 }
-            />
+            >
+            </Route>
+            <Route path="/bandaotao/quan-ly-nhan-vien/them-nhan-vien" element={
+                <DashBroardBanDaoTao>
+                    <AddOrUpdateNhanVien/>
+                </DashBroardBanDaoTao>
+            }/>
+            <Route path="/bandaotao/quan-ly-nhan-vien/sua-nhan-vien/:id" element={
+                <DashBroardBanDaoTao>
+                    <AddOrUpdateNhanVien/>
+                </DashBroardBanDaoTao>
+            }/>
+            END QLNV
             <Route
                 path="/bandaotao/quan-ly-bo-mon"
                 element={
