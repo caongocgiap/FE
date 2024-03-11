@@ -224,6 +224,7 @@ const QuanLyCoSo = () => {
               style={{
                 backgroundColor: "#052C65",
                 color: "#ffff",
+                marginRight: "10px",
               }}
               icon={<PlusCircleOutlined />}
             ></Button>
