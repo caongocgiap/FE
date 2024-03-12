@@ -64,13 +64,18 @@ const updateCoSo = (data) => {
   return res;
 };
 
-const updateXoaMemCoSo = (data) => {
-  let res = axios.put(`/api/coso/${data.idCoSo}/update-xoa-mem`);
+const updateXoaMemCoSo = (idCoSo) => {
+  let res = axios.put(`/api/coso/${idCoSo}/update-xoa-mem`);
   return res;
 };
 
 const saveCoSoCon = (data) => {
   let res = axios.post(`/api/coso/campus`, data);
+  return res;
+};
+
+const updateCoSoCon = (data, idCoSoCon) => {
+  let res = axios.put(`/api/coso/campus/${idCoSoCon}/update`, data);
   return res;
 };
 
@@ -93,4 +98,5 @@ export {
   fetchAllBoMon,
   fetchAllNhanVien,
   updateXoaMemBoMonTheoCoSo,
+  updateCoSoCon,
 };

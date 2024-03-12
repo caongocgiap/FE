@@ -17,6 +17,8 @@ import ModalUpdateCoSo from "./ModalUpdateCoSo";
 import { toast } from "react-toastify";
 import QuanLyBoMonTheoCoSo from "./quanlybomontheocoso/QuanLyBoMonTheoCoSo";
 import FileUpload from "../component/FileUpload";
+import Loading from "../../utils/Loading";
+import ModalImportExcel from "./ModalImportExcel";
 
 const QuanLyCoSo = () => {
   const [dataTimKiemCoSo, setDataTimKiemCoSo] = useState({
@@ -29,7 +31,10 @@ const QuanLyCoSo = () => {
   const [isModalAddCoSoOpen, setIsModalAddCoSoOpen] = useState(false);
   const [isModalUpdateCoSoOpen, setIsModalUpdateCoSoOpen] = useState(false);
   const [isModalBoMonOpen, setIsModalBoMonOpen] = useState(false);
+  const [isModalImportExcelOpen, setIsModalImportExcelOpen] = useState(false);
   const [dataUpdateCoSo, setDataUpdateCoSo] = useState(); // Dữ liệu sản phẩm hiện tại
+  const [loading, setLoading] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
 
   const columns = [
     {
@@ -85,7 +90,7 @@ const QuanLyCoSo = () => {
               color: "#ffff",
             }}
             onClick={() => {
-              handleUpdateXoaMemCoSo(row);
+              handleUpdateXoaMemCoSo(row.idCoSo);
             }}
           ></Button>
         </>
@@ -124,47 +129,34 @@ const QuanLyCoSo = () => {
     console.log(isModalUpdateCoSoOpen);
   };
 
-  const handleUpdateXoaMemCoSo = async (row) => {
-    setDataUpdateCoSo(row);
+  const handleUpdateXoaMemCoSo = async (idCoSo) => {
+    setDeleteItemId(idCoSo);
+    setLoading(true);
     try {
-      const res = await updateXoaMemCoSo(row);
+      const res = await updateXoaMemCoSo(idCoSo);
       console.log(res.data);
       if (res.data.httpStatus === "OK") {
         toast.success(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          autoClose: 2000,
         });
       } else if (res.data.httpStatus === "NOT_ACCEPTABLE") {
         toast.warning(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          autoClose: 2000,
         });
       } else {
         toast.error(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          autoClose: 2000,
         });
       }
+      setDeleteItemId(null);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching products:", error);
+      setLoading(false);
+      setDeleteItemId(null);
     }
   };
 
@@ -175,8 +167,10 @@ const QuanLyCoSo = () => {
   }, [
     dataTimKiemCoSo,
     isModalAddCoSoOpen,
+    isModalImportExcelOpen,
     isModalUpdateCoSoOpen,
     dataUpdateCoSo,
+    deleteItemId,
   ]);
 
   return (
@@ -228,18 +222,32 @@ const QuanLyCoSo = () => {
               }}
               icon={<PlusCircleOutlined />}
             ></Button>
-            <FileUpload></FileUpload>
+            <Button
+              type="primary"
+              onClick={() => setIsModalImportExcelOpen(true)}
+              style={{
+                backgroundColor: "#052C65",
+                color: "#ffff",
+                marginRight: "10px",
+              }}
+              icon={<PlusCircleOutlined />}
+            >
+              Import Excel
+            </Button>
           </div>
         </div>
-        <TablePaginaton
-          column={columns}
-          data={dataCoSo}
-          setTotalProducts={setTotalProducts}
-          total={totalProducts}
-          pageNo={dataTimKiemCoSo.pageNo}
-          pageSize={dataTimKiemCoSo.pageSize}
-          handlePageChange={handlePageChange}
-        ></TablePaginaton>
+        <div>
+          {loading && <Loading></Loading>}
+          <TablePaginaton
+            column={columns}
+            data={dataCoSo}
+            setTotalProducts={setTotalProducts}
+            total={totalProducts}
+            pageNo={dataTimKiemCoSo.pageNo}
+            pageSize={dataTimKiemCoSo.pageSize}
+            handlePageChange={handlePageChange}
+          ></TablePaginaton>
+        </div>
       </Container>
 
       <QuanLyBoMonTheoCoSo
@@ -250,12 +258,18 @@ const QuanLyCoSo = () => {
       <ModalAddCoSo
         isModalAddCoSoOpen={isModalAddCoSoOpen}
         setIsModalAddCoSoOpen={setIsModalAddCoSoOpen}
+        setLoading={setLoading}
       ></ModalAddCoSo>
       <ModalUpdateCoSo
         dataUpdateCoSo={dataUpdateCoSo}
         setDataUpdateCoSo={setDataUpdateCoSo}
         setIsModalUpdateCoSoOpen={setIsModalUpdateCoSoOpen}
         isModalUpdateCoSoOpen={isModalUpdateCoSoOpen}
+        setLoading={setLoading}
+      />
+      <ModalImportExcel
+        isModalImportExcelOpen={isModalImportExcelOpen}
+        setIsModalImportExcelOpen={setIsModalImportExcelOpen}
       />
     </>
   );

@@ -2,12 +2,14 @@ import { Button, Form, Input, Select, Space, Modal } from "antd";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuildingCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { saveCoSoCon } from "../../apis/QuanLyCoSoAPI";
+import { saveCoSoCon, updateCoSoCon } from "../../apis/QuanLyCoSoAPI";
+import { useEffect } from "react";
 
-const ModalAddCoSoCon = ({
-  isModalAddCoSoConOpen,
-  setIsModalAddCoSoConOpen,
-  dataUpdateCoSo,
+const ModalUpdateCoSoCon = ({
+  isModalUpdateCoSoConOpen,
+  setIsModalUpdateCoSoConOpen,
+  dataUpdateCoSoCon,
+  setDataUpdateCoSoCon,
 }) => {
   const [form] = Form.useForm();
 
@@ -15,27 +17,33 @@ const ModalAddCoSoCon = ({
     addCoSoCon();
   };
 
-  const handleCloseAddCoSoConOpen = () => {
-    setIsModalAddCoSoConOpen(false);
+  const handleCloseUpdateCoSoConOpen = () => {
+    setIsModalUpdateCoSoConOpen(false);
     form.resetFields();
   };
 
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setDataUpdateCoSoCon({ ...dataUpdateCoSoCon, [name]: value });
+    console.log(dataUpdateCoSoCon);
+  };
+
   const addCoSoCon = async () => {
-    const formValue = await form.getFieldsValue();
+    const formValue = form.getFieldsValue();
     const data = {
-      idCoSo: dataUpdateCoSo.idCoSo,
+      idCoSo: dataUpdateCoSoCon.idCoSo,
       tenCoSoCon: formValue.tenCoSoCon,
     };
-    console.log(formValue);
+    console.log(data);
     try {
-      const res = await saveCoSoCon(data);
+      const res = await updateCoSoCon(data, dataUpdateCoSoCon.idCoSoCon);
       console.log(res.data);
-      if (res.data.httpStatus === "CREATED") {
+      if (res.data.httpStatus === "OK") {
         toast.success(res.data.message, {
           position: "top-right",
           autoClose: 2000,
         });
-        handleCloseAddCoSoConOpen();
+        handleCloseUpdateCoSoConOpen();
       } else if (res.data.httpStatus === "NOT_ACCEPTABLE") {
         toast.warning(res.data.message, {
           position: "top-right",
@@ -51,13 +59,17 @@ const ModalAddCoSoCon = ({
       console.error("Error fetching products:", error);
     }
   };
+
+  useEffect(() => {
+    form.setFieldsValue({ tenCoSoCon: dataUpdateCoSoCon?.tenCoSoCon }); // Cập nhật giá trị của form khi dataUpdateCoSo thay đổi
+  }, [dataUpdateCoSoCon]);
   return (
     <>
       <Modal
-        title="Thêm cơ sở con"
-        open={isModalAddCoSoConOpen}
+        title="Sửa cơ sở con"
+        open={isModalUpdateCoSoConOpen}
         // onOk={handleOk}
-        onCancel={() => setIsModalAddCoSoConOpen(false)}
+        onCancel={() => setIsModalUpdateCoSoConOpen(false)}
         footer={null}
       >
         <Form
@@ -72,7 +84,12 @@ const ModalAddCoSoCon = ({
             label="Tên cơ sở con"
             rules={[{ required: true }]}
           >
-            <Input style={{ width: "320px", marginRight: "10px" }} />
+            <Input
+              style={{ width: "320px", marginRight: "10px" }}
+              onChange={(e) => onChangeInput(e)}
+              name="tenCoSoCon"
+              //   value={dataUpdateCoSoCon.tenCoSoCon}
+            />
           </Form.Item>
           <Form.Item
             noStyle
@@ -95,4 +112,4 @@ const ModalAddCoSoCon = ({
     </>
   );
 };
-export default ModalAddCoSoCon;
+export default ModalUpdateCoSoCon;

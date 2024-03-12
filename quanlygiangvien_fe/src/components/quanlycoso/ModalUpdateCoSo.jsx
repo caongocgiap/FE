@@ -18,6 +18,7 @@ import {
   UnorderedListOutlined,
 } from "@ant-design/icons";
 import ModalAddCoSoCon from "./ModalAddCoSoCon";
+import ModalUpdateCoSoCon from "./ModalUpdateCoSoCon";
 
 const ModalUpdateCoSo = ({
   isModalUpdateCoSoOpen,
@@ -34,6 +35,10 @@ const ModalUpdateCoSo = ({
   const [totalCoSoCon, setTotalCoSoCon] = useState(); // số lượng cơ sở con
   const [dataCoSoCon, setDataCoSoCon] = useState([]); // Danh sách cơ sở con
   const [isModalAddCoSoConOpen, setIsModalAddCoSoConOpen] = useState(false); //
+  const [isModalUpdateCoSoConOpen, setIsModalUpdateCoSoConOpen] =
+    useState(false); //
+  const [dataUpdateCoSoCon, setDataUpdateCoSoCon] = useState(); //
+  const [deleteItemId, setDeleteItemId] = useState(null);
 
   const columns = [
     {
@@ -77,7 +82,7 @@ const ModalUpdateCoSo = ({
               marginRight: "10px",
             }}
             onClick={() => {
-              //   handleUpdateCoSo(row);
+              handleUpdateCoSoCon(row);
             }}
           ></Button>
           <Button
@@ -89,7 +94,7 @@ const ModalUpdateCoSo = ({
               color: "#ffff",
             }}
             onClick={() => {
-              handleUpdateXoaMemCoSoCon(row);
+              handleUpdateXoaMemCoSoCon(row.idCoSoCon);
             }}
           ></Button>
         </>
@@ -137,38 +142,20 @@ const ModalUpdateCoSo = ({
       if (res.data.httpStatus === "OK") {
         toast.success(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          autoClose: 2000,
         });
+        handleCloseUpdateCoSoOpen();
       } else if (res.data.httpStatus === "NOT_ACCEPTABLE") {
         toast.warning(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          autoClose: 2000,
         });
       } else {
         toast.error(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          autoClose: 2000,
         });
       }
-      handleCloseUpdateCoSoOpen();
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -182,57 +169,50 @@ const ModalUpdateCoSo = ({
     });
   };
 
-  const handleUpdateXoaMemCoSoCon = async (row) => {
-    // const formValue = await form.getFieldsValue().tenCoSo;
-    // console.log(formValue);
-    setDataUpdateCoSo(row);
+  const handleUpdateXoaMemCoSoCon = async (idCoSoCon) => {
+    setDeleteItemId(idCoSoCon);
     try {
-      const res = await updateXoaMemCoSoCon(row.idCoSoCon);
+      const res = await updateXoaMemCoSoCon(idCoSoCon);
       console.log(res.data);
       if (res.data.httpStatus === "OK") {
         toast.success(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          autoClose: 2000,
         });
       } else if (res.data.httpStatus === "NOT_ACCEPTABLE") {
         toast.warning(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          autoClose: 2000,
         });
       } else {
         toast.error(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          autoClose: 2000,
         });
       }
+      setDeleteItemId(null);
     } catch (error) {
       console.error("Error fetching products:", error);
+      setDeleteItemId(null);
     }
+  };
+
+  const handleUpdateCoSoCon = (row) => {
+    setDataUpdateCoSoCon(row);
+    setIsModalUpdateCoSoConOpen(true);
   };
 
   useEffect(() => {
     form.setFieldsValue({ tenCoSo: dataUpdateCoSo?.tenCoSo }); // Cập nhật giá trị của form khi dataUpdateCoSo thay đổi
     fetchDataCoSoCon();
     console.log(dataCoSoCon);
-  }, [dataUpdateCoSo, dataTimKiemCoSoCon, isModalAddCoSoConOpen]);
+  }, [
+    dataTimKiemCoSoCon,
+    isModalAddCoSoConOpen,
+    isModalUpdateCoSoConOpen,
+    deleteItemId,
+    dataUpdateCoSo,
+  ]);
 
   return (
     <>
@@ -332,6 +312,12 @@ const ModalUpdateCoSo = ({
           setIsModalAddCoSoConOpen={setIsModalAddCoSoConOpen}
           dataUpdateCoSo={dataUpdateCoSo}
         ></ModalAddCoSoCon>
+        <ModalUpdateCoSoCon
+          isModalUpdateCoSoConOpen={isModalUpdateCoSoConOpen}
+          setIsModalUpdateCoSoConOpen={setIsModalUpdateCoSoConOpen}
+          dataUpdateCoSoCon={dataUpdateCoSoCon}
+          setDataUpdateCoSoCon={setDataUpdateCoSoCon}
+        ></ModalUpdateCoSoCon>
       </Modal>
     </>
   );

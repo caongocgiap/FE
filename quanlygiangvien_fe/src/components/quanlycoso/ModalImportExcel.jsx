@@ -3,27 +3,27 @@ import { saveCoSo } from "../../apis/QuanLyCoSoAPI";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuildingCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
+import FileUpload from "../component/FileUpload";
 import { useState } from "react";
-import Loading from "../../utils/Loading";
 
-const ModalAddCoSo = ({
-  isModalAddCoSoOpen,
-  setIsModalAddCoSoOpen,
-  setLoading,
+const ModalImportExcel = ({
+  isModalImportExcelOpen,
+  setIsModalImportExcelOpen,
 }) => {
   const [form] = Form.useForm();
+  const [data, setData] = useState(false);
 
   const onFinish = () => {
     addCoSo();
   };
 
   const handleCloseAddCoSoOpen = () => {
-    setIsModalAddCoSoOpen(false);
+    setIsModalImportExcelOpen(false);
     form.resetFields();
   };
 
   const addCoSo = async () => {
-    setLoading(true);
+    // setLoading(true);
     const formValue = form.getFieldsValue();
     let data = { tenCoSo: formValue.tenCoSo };
     try {
@@ -46,9 +46,9 @@ const ModalAddCoSo = ({
           autoClose: 2000,
         });
       }
-      setLoading(false);
+      //   setLoading(false);
     } catch (error) {
-      setLoading(false);
+      //   setLoading(false);
       console.error("Error fetching products:", error);
     }
   };
@@ -56,44 +56,16 @@ const ModalAddCoSo = ({
     <>
       <Modal
         title="Thêm cơ sở"
-        open={isModalAddCoSoOpen}
+        open={isModalImportExcelOpen}
         // onOk={handleOk}
-        onCancel={() => setIsModalAddCoSoOpen(false)}
+        onCancel={() => setIsModalImportExcelOpen(false)}
         footer={null}
       >
-        <Form
-          form={form}
-          name="control-hooks"
-          onFinish={onFinish}
-          style={{ maxWidth: 600 }}
-          className={"d-flex align-items-center"}
-        >
-          <Form.Item
-            name="tenCoSo"
-            label="Tên cơ sở"
-            rules={[{ required: true }]}
-          >
-            <Input style={{ width: "320px", marginRight: "10px" }} />
-          </Form.Item>
-          <Form.Item
-            noStyle
-            shouldUpdate={(prevValues, currentValues) =>
-              prevValues.gender !== currentValues.gender
-            }
-          ></Form.Item>
-          <Form.Item>
-            <Button
-              htmlType="submit"
-              icon={<FontAwesomeIcon icon={faBuildingCircleArrowRight} />}
-              style={{
-                backgroundColor: "#052C65",
-                color: "#ffff",
-              }}
-            ></Button>
-          </Form.Item>
-        </Form>
+        <FileUpload
+          setIsModalImportExcelOpen={setIsModalImportExcelOpen}
+        ></FileUpload>
       </Modal>
     </>
   );
 };
-export default ModalAddCoSo;
+export default ModalImportExcel;
