@@ -1,6 +1,6 @@
-import './App.css';
-import {ToastContainer} from "react-toastify";
-import {BrowserRouter as Router , Routes , Route} from "react-router-dom";
+import "./App.css";
+import { ToastContainer } from "react-toastify";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Error404Page from "./pages/404page/Error404Page";
 import DashBroardBanDaoTao from "./layout/DashBroardBanDaoTao";
 import QuanLyCoSo from "./components/quanlycoso/QuanLyCoSo";
@@ -14,7 +14,7 @@ import AddOrUpdateNhanVien from "./components/quanlynhanvien/layout/AddOrUpdateN
 function App() {
   return (
     <>
-      <ToastContainer/>
+      <ToastContainer />
       <Router>
         <Routes>
           <Route path="*" element={<Error404Page/>}/>
