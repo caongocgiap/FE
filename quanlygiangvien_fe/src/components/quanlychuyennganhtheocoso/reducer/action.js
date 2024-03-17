@@ -4,10 +4,15 @@ import {
     SHOW_MODAL_ADD,
     SHOW_MODAL_EDIT,
     SET_TARGET,
-    SET_ID_CO_SO,
+    SET_FILTER,
     SET_PAGE,
     SET_PAGE_SIZE,
     SET_TOTAL_ELEMENT,
+    SET_DATA_NHANVIEN,
+    SET_DATA_BOMON,
+    SET_DATA_COSO,
+    SET_DATA_CHUYENNGANH,
+    SET_DATA_BOMONTHEOCOSO,
     RELOAD_DATA
 } from "./constants";
 
@@ -39,9 +44,9 @@ export const setTotalElement = payload => {
     };
 };
 
-export const setIdCoSo = payload => {
+export const setFilter = payload => {
     return {
-        type: SET_ID_CO_SO,
+        type: SET_FILTER,
         payload
     };
 };
@@ -79,5 +84,42 @@ export const setTarget = payload => {
     return {
         type: SET_TARGET,
         payload
+    };
+};
+
+export const setDataBoMon = payload => {
+    return {
+        type: SET_DATA_BOMON,
+        payload
+    };
+};
+
+export const setDataCoSo = payload => {
+    return {
+        type: SET_DATA_COSO,
+        payload
+    };
+};
+
+export const setDataBoMonTheoCoSo = payload => {
+    return {
+        type: SET_DATA_BOMONTHEOCOSO,
+        payload
+    };
+};
+
+export const setDataChuyenNganh = payload => {
+    return {
+        type: SET_DATA_CHUYENNGANH,
+        payload
+
+    };
+};
+
+export const setDataNhanVien = payload => {
+    return {
+        type: SET_DATA_NHANVIEN,
+        payload
+
     };
 };

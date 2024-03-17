@@ -86,6 +86,12 @@ const ListChuyenNganhTheoCoSo = () => {
             render: tenCoSo => <Tag color="purple">{tenCoSo}</Tag>
         },
         {
+            title: 'Trưởng môn',
+            dataIndex: 'tenTruongMon',
+            sorter: (a, b) => a.ten.length - b.ten.length,
+            render: tenTruongMon => <Typography.Text>{tenTruongMon}</Typography.Text>
+        },
+        {
             title: 'Trạng thái',
             dataIndex: 'trangThai',
             render: trangThai => {

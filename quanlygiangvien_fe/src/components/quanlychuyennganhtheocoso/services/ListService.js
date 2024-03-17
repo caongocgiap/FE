@@ -12,11 +12,14 @@ const paramsSerializer = (params) => {
       .join('&');
 };
 
-const listService = async (idCoSo = null, page) => {
+const listService = async (filter = {}, page) => {
+    filter = Object.fromEntries(
+      Object.entries(filter).filter(([key, value]) => value !== '' && value !== null)
+    );
     const response = await requestGet(URL_API.list, {
         params: {
             page: page,
-            idCoSo
+            ...filter
         },
         paramsSerializer
     });

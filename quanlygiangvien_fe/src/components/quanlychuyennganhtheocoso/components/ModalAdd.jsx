@@ -1,4 +1,4 @@
-import { Modal, Form, Input, Button, Popconfirm, message } from "antd";
+import { Modal, Form, Select, Button, Popconfirm, message } from "antd";
 
 import { useQuanLyChuyenNganhTheoCoSo } from "../QuanLyChuyenNganhTheoCoSo";
 import { reloadData, showModalAdd } from "../reducer/action";
@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 const ModalAddChuyenNganhTheoCoSo = () => {
     const { state, dispatch } = useQuanLyChuyenNganhTheoCoSo();
 
+    const [listNhanVien, setListNhanVien] = useState([]);
+    const [listChuyenNganh, setListChuyenNganh] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [form] = Form.useForm();
 
@@ -22,7 +24,7 @@ const ModalAddChuyenNganhTheoCoSo = () => {
 
     const handleSubmit = (data) => {
         setIsLoading(true);
-        addService(data.name)
+        addService(data.idBoMonTheoCoSo, data.idChuyenNganh, data.idTruongMon)
             .then(response => {
                 if (response.httpStatus !== "OK") {
                     return toast.error(response.message);
@@ -38,6 +40,12 @@ const ModalAddChuyenNganhTheoCoSo = () => {
             .finally(() => {
                 setIsLoading(false);
             });
+    };
+
+    const handleSelectBoMonTheoCoSo = (value) => {
+        let boMonTheoCoSo = state.data_boMonTheoCoSo.find(o => o.id === value);
+        setListChuyenNganh(state.data_chuyenNganh.filter(o => o.idBoMon === boMonTheoCoSo.idBoMon));
+        setListNhanVien(state.data_nhanVien.filter(o => o.idBoMon === boMonTheoCoSo.idBoMon));
     };
 
     return (
@@ -56,15 +64,50 @@ const ModalAddChuyenNganhTheoCoSo = () => {
                 onFinish={values => handleSubmit(values)}
             >
                 <Form.Item 
-                    name="name"
+                    name="idBoMonTheoCoSo"
                     rules={[
-                        {required: true, message: "Tên chuyên ngành không được bỏ trống"}
+                        {required: true, message: "Vui lòng chọn một bộ môn theo cơ sở"}
                     ]}
                 >
-                    <Input
+                    <Select
+                        size="middle"
+                        placeholder="Bộ môn theo cơ sở"
+                        onChange={(value) => handleSelectBoMonTheoCoSo(value)}
+                    >
+                    {state.data_boMonTheoCoSo && state.data_boMonTheoCoSo.map((option) => (
+                        <Select.Option key={option.id} value={option.id}>{option.tenBoMon} - cơ sở {option.tenCoSo}</Select.Option>
+                    ))}
+                    </Select>
+                </Form.Item>
+
+                <Form.Item 
+                    name="idChuyenNganh"
+                    rules={[
+                        {required: true, message: "Vui lòng chọn một chuyên ngành"}
+                    ]}
+                >
+                    <Select
+                        size="middle"
+                        placeholder="Chuyên ngành"
+                    >
+                    {listChuyenNganh.map((option) => (
+                        <Select.Option key={option.id} value={option.id}>{option.ten}</Select.Option>
+                    ))}
+                    </Select>
+                </Form.Item>
+
+                <Form.Item 
+                    name="idTruongMon"
+                >
+                    <Select
                         allowClear
-                        placeholder="Tên chuyên ngành"
-                    />
+                        size="middle"
+                        placeholder="Trưởng môn"
+                    >
+                    {listNhanVien.map((option) => (
+                        <Select.Option key={option.id} value={option.id}>{option.ten} - {option.maNhanVien}</Select.Option>
+                    ))}
+                    </Select>
                 </Form.Item>
 
                 <div style={{ textAlign: 'right' }}>
@@ -75,7 +118,7 @@ const ModalAddChuyenNganhTheoCoSo = () => {
                         okText="Có"
                         cancelText="Không"
                     >
-                        <Button type="primary" loading={isLoading}>Thêm mới bộ môn</Button>                       
+                        <Button type="primary" loading={isLoading}>Thêm mới chuyên ngành theo cơ sở</Button>                       
                     </Popconfirm>
                     
                 </div>

@@ -16,7 +16,6 @@ const ModalEditChuyenNganhTheoCoSo = () => {
                 dispatch(showModalEdit(false));
             }}
             footer={null}
-            width={800}
         >
             <UpdateChuyenNganhTheoCoSo />
         </Modal>

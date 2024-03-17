@@ -8,6 +8,9 @@ export const XOA_MEM = {
 
 
 export const URL_API = {
+    init_data_nhanvien: '/api/chuyen-nganh-theo-co-so/get-data/nhan-vien',
+    init_data_bm_and_cs: '/api/chuyen-nganh-theo-co-so/get-data/bo-mon-and-co-so',
+    init_data_cn_and_bmtcs: '/api/chuyen-nganh-theo-co-so/get-data/chuyen-nganh-and-bo-mon-theo-co-so',
     list: '/api/chuyen-nganh-theo-co-so/list',
     add: '/api/chuyen-nganh-theo-co-so/add',
     delete: '/api/chuyen-nganh-theo-co-so/delete',
