@@ -1,0 +1,15 @@
+export const SET_DATA = 'set_data';
+export const SHOW_MODAL_ADD = 'show_modal_add';
+export const SHOW_MODAL_EDIT = 'show_modal_edit';
+export const SET_TARGET = 'set_target';
+export const SET_LOADING = 'set_loading';
+export const SET_FILTER = 'set_filter';
+export const SET_PAGE = 'set_page';
+export const SET_PAGE_SIZE = 'set_page_size';
+export const SET_TOTAL_ELEMENT = 'set_page_element';
+export const SET_DATA_NHANVIEN = 'set_data_nhanvien';
+export const SET_DATA_BOMON = 'set_data_bomon';
+export const SET_DATA_COSO = 'set_data_coso';
+export const SET_DATA_BOMONTHEOCOSO = 'set_data_bomontheocoso';
+export const SET_DATA_CHUYENNGANH = 'set_data_chuyennganh';
+export const RELOAD_DATA = 'reload_data';

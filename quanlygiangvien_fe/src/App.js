@@ -5,11 +5,13 @@ import Error404Page from "./pages/404page/Error404Page";
 import DashBroardBanDaoTao from "./layout/DashBroardBanDaoTao";
 import QuanLyCoSo from "./components/quanlycoso/QuanLyCoSo";
 import QuanLyMonHoc from "./components/quanlymonhoc/QuanLyMonHoc";
-import QuanLyHocKy from "./components/quanlyhocky/QuanLyHocKy";
+import QuanLyHocKy from "./components/quanlyhocky/layout/QuanLyHocKy";
 import QuanLyNhanVien from "./components/quanlynhanvien/layout/QuanLyNhanVien";
 import QuanLyBoMon from "./components/quanlybomon/QuanLyBoMon";
 import QuanLyChucVu from "./components/quanlychucvu/QuanLyChucVu";
 import AddOrUpdateNhanVien from "./components/quanlynhanvien/layout/AddOrUpdateNhanVien";
+import QuanLyChuyenNganhTheoCoSo from "./components/quanlychuyennganhtheocoso/QuanLyChuyenNganhTheoCoSo";
+import QuanLyBoMonTheoCoSo from "./components/quanlycoso/quanlybomontheocoso/QuanLyBoMonTheoCoSo";
 
 function App() {
   return (
@@ -63,12 +65,19 @@ function App() {
                     <AddOrUpdateNhanVien/>
                 </DashBroardBanDaoTao>
             }/>
-            END QLNV
             <Route
                 path="/bandaotao/quan-ly-bo-mon"
                 element={
                     <DashBroardBanDaoTao>
                         <QuanLyBoMon/>
+                    </DashBroardBanDaoTao>
+                }
+            />
+            <Route
+                path="/bandaotao/quan-ly-chuyen-nganh-theo-co-so"
+                element={
+                    <DashBroardBanDaoTao>
+                        <QuanLyChuyenNganhTheoCoSo/>
                     </DashBroardBanDaoTao>
                 }
             />
