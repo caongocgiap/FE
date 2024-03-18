@@ -53,7 +53,7 @@ const QuanLyChuyenNganhTheoCoSo = () => {
                 }
             })
             .catch((error) => {
-                toast.error(error?.response?.data?.message || "Không thể lấy dữ liệu bộ môn và cơ sở");
+                toast.error(error?.response?.data?.message || "Không thể lấy dữ liệu bộ môn theo cơ sở và chuyên ngành");
             });
 
         initDataService(TYPE_DATA.NHANVIEN)
