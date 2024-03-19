@@ -120,36 +120,16 @@ const QuanLyChucVu = () => {
       if (res.data.httpStatus === "OK") {
         toast.success(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
         });
         setDeleteItemId(null);
       } else if (res.data.httpStatus === "NOT_ACCEPTABLE") {
         toast.warning(res.data.message, {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
         });
       } else {
         toast.error(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
         });
       }
     } catch (error) {
@@ -163,52 +143,6 @@ const QuanLyChucVu = () => {
     console.log(row);
     console.log(dataUpdateChucVu);
   };
-
-  // const handleUpdateXoaMemCoSo = async (row) => {
-  //   // const formValue = await form.getFieldsValue().tenCoSo;
-  //   // console.log(formValue);
-  //   setDataUpdateCoSo(row);
-  //   try {
-  //     const res = await updateXoaMemCoSo(row);
-  //     console.log(res.data);
-  //     if (res.data.httpStatus === "OK") {
-  //       toast.success(res.data.message, {
-  //         position: "top-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "light",
-  //       });
-  //     } else if (res.data.httpStatus === "NOT_ACCEPTABLE") {
-  //       toast.warning(res.data.message, {
-  //         position: "top-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "light",
-  //       });
-  //     } else {
-  //       toast.error(res.data.message, {
-  //         position: "top-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "light",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //   }
-  // };
 
   useEffect(() => {
     // Hàm gọi fetchAllProducts khi pageNo hoặc pageSize thay đổi

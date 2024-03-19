@@ -35,7 +35,7 @@ const DashBroardBanDaoTao = ({ children }) => {
             //   label: "Quản lý cơ sở",
             // },
             {
-              key: "/",
+              key: "/bandaotao/quan-ly-co-so",
               icon: <UserOutlined />,
               label: "Quản lý cơ sở",
             },

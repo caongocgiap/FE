@@ -39,7 +39,7 @@ const QuanLyCoSo = () => {
   const columns = [
     {
       title: "STT",
-      dataIndex: "idCoSo",
+      dataIndex: "stt",
       key: "idCoSo",
       width: "5%",
       render: (text) => <a>{text}</a>,
