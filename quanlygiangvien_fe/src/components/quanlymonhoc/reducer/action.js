@@ -1,22 +1,17 @@
 import {
-  SET_LOADING,
   SET_DATA,
   SHOW_MODAL_ADD,
   SHOW_MODAL_EDIT,
+  SHOW_MODAL_DETAIL,
   SET_TARGET,
+  SET_LOADING,
   SET_KEYWORD,
   SET_PAGE,
-  SET_PAGE_SIZE,
   SET_TOTAL_ELEMENT,
-  RELOAD_DATA,
-} from "./constants";
-
-export const reloadData = (payload) => {
-  return {
-    type: RELOAD_DATA,
-    payload,
-  };
-};
+  SET_RELOAD,
+  SET_PAGE_SIZE,
+  SET_DATA_BO_MON,
+} from "./type.js";
 
 export const setPage = (payload) => {
   return {
@@ -60,6 +55,13 @@ export const setData = (payload) => {
   };
 };
 
+export const setDataBoMon = (payload) => {
+  return {
+    type: SET_DATA_BO_MON,
+    payload,
+  };
+};
+
 export const showModalAdd = (payload) => {
   return {
     type: SHOW_MODAL_ADD,
@@ -74,9 +76,23 @@ export const showModalEdit = (payload) => {
   };
 };
 
+export const showModalDetail = (payload) => {
+  return {
+    type: SHOW_MODAL_DETAIL,
+    payload,
+  };
+};
+
 export const setTarget = (payload) => {
   return {
     type: SET_TARGET,
+    payload,
+  };
+};
+
+export const setReload = (payload) => {
+  return {
+    type: SET_RELOAD,
     payload,
   };
 };

@@ -2,60 +2,63 @@ import { Button, Form, Input, Select, Space, Modal, DatePicker } from "antd";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuildingCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { saveCoSoCon, updateCoSoCon } from "../../apis/QuanLyCoSoAPI";
+import { saveCoSoCon, updateCoSoCon } from "../../../apis/QuanLyCoSoAPI";
 import { useEffect } from "react";
 import dayjs from "dayjs";
 import moment from "moment";
-import { addMonHoc, updateMonHoc } from "../../apis/QuanLyMonHocAPI";
-const { Option } = Select;
+import { addMonHoc, updateMonHoc } from "../../../apis/QuanLyMonHocAPI";
+import { useQuanLyMonHoc } from "../context/MonHocContext";
+import { setLoading, setReload, showModalAdd } from "../reducer/action";
 
-const AddMonHoc = ({
-  isModalAddOpen,
-  setIsModalAddOpen,
-  //   data,
-  dataBoMon,
-  dataHinhThuc,
-}) => {
+const AddMonHoc = () => {
   const [form] = Form.useForm();
+  const { stateMonHoc, dispatchMonHoc, dataHinhThuc } = useQuanLyMonHoc();
 
   const handleCloseUpdateOpen = () => {
-    setIsModalAddOpen(false);
+    dispatchMonHoc(showModalAdd(false));
     form.resetFields();
   };
 
-  const hanleUpdate = async () => {
+  const hanleAddMonHoc = () => {
     const formvalue = form.getFieldsValue();
     let thoiGianTao = formvalue.thoiGianTao.valueOf();
     const value = {
       ...formvalue,
       thoiGianTao: thoiGianTao,
     };
-    try {
-      const res = await addMonHoc(value);
-      if (res.data.httpStatus === "CREATED") {
-        toast.success(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-        });
-        handleCloseUpdateOpen();
-      }
-    } catch (e) {
-      for (let message in e.response.data) {
-        toast.error(e.response.data[message]);
-      }
-    }
+    dispatchMonHoc(setLoading(true)); // Bắt đầu loading trước khi gửi yêu cầu
+    addMonHoc(value)
+      .then((res) => {
+        if (res.data.httpStatus === "CREATED") {
+          dispatchMonHoc(setReload(true));
+          toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 2000,
+          });
+          handleCloseUpdateOpen();
+        }
+      })
+      .catch((e) => {
+        console.log(e.response.data);
+        for (let message in e.response.data) {
+          toast.error(e.response.data[message]);
+        }
+      })
+      .finally(() => {
+        dispatchMonHoc(setLoading(false)); // Dừng loading sau khi kết thúc quá trình
+      });
   };
 
   useEffect(() => {
     form.resetFields();
-  }, [isModalAddOpen]);
+  }, [stateMonHoc.showModalAdd]);
 
   return (
     <>
       <Modal
         title="Thêm môn học"
-        open={isModalAddOpen}
-        onCancel={() => setIsModalAddOpen(false)}
+        open={stateMonHoc.isShowAdd}
+        onCancel={() => dispatchMonHoc(showModalAdd(false))}
         footer={null}
       >
         <Form
@@ -63,7 +66,7 @@ const AddMonHoc = ({
           name="control-hooks"
           style={{ maxWidth: 600 }}
           labelAlign="left"
-          onFinish={hanleUpdate}
+          onFinish={hanleAddMonHoc}
         >
           <Form.Item
             name="ma"
@@ -111,7 +114,7 @@ const AddMonHoc = ({
             <Select
               allowClear
               style={{ width: "100%" }}
-              options={dataBoMon.map((item) => ({
+              options={stateMonHoc.dataBoMon.map((item) => ({
                 label: item.ten,
                 value: item.id,
               }))}

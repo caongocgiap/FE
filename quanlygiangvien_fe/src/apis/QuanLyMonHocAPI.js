@@ -1,17 +1,16 @@
 import axios from "../utils/axiosCustomize.js";
 
-const fetchAllMonHoc = (data) => {
-  const search = data.search
-    ? Object.entries(data.search)
+const fetchAllMonHoc = (keyword, page, pageSize) => {
+  const search = keyword
+    ? Object.entries(keyword)
         .filter(([key, value]) => value !== undefined && value !== "")
         .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
         .join("&")
     : "";
-  console.log("==============");
-  console.log(search);
-  console.log("==============");
+  // console.log(page);
+  // console.log(pageSize);
   let res = axios.get(
-    `/api/monHoc?pageNo=${data.pageNo}&pageSize=${data.pageSize}&${search}`
+    `/api/monHoc?pageNo=${page}&pageSize=${pageSize}&${search}`
   );
   return res;
 };
@@ -23,6 +22,11 @@ const fetchAllBoMon = () => {
 
 const addMonHoc = (data) => {
   let res = axios.post(`http://localhost:8080/api/monHoc`, data);
+  return res;
+};
+
+const getMonHoc = (id) => {
+  let res = axios.get(`http://localhost:8080/api/monHoc/${id}`);
   return res;
 };
 
@@ -47,4 +51,5 @@ export {
   addMonHoc,
   updateMonHoc,
   updateMonHocXoaMem,
+  getMonHoc,
 };

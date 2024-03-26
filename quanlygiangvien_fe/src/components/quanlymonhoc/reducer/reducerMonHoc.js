@@ -1,108 +1,98 @@
 import {
-  SET_LOADING,
   SET_DATA,
   SHOW_MODAL_ADD,
   SHOW_MODAL_EDIT,
+  SHOW_MODAL_DETAIL,
   SET_TARGET,
+  SET_LOADING,
   SET_KEYWORD,
   SET_PAGE,
-  SET_PAGE_SIZE,
+  SET_RELOAD,
   SET_TOTAL_ELEMENT,
-  RELOAD_DATA,
-} from "./constants";
+  SET_PAGE_SIZE,
+  SET_DATA_BO_MON,
+} from "./type.js";
 
-export const initDataBoMon = {
+export const initDataMonHoc = {
   isShowAdd: false,
   isShowEdit: false,
+  isShowDetail: false,
   isLoading: true,
-  keyword: [],
-  page: 0,
-  pageSize: 0,
+  keyword: {},
   totalElements: 0,
-  isReload: false,
   target: null,
   data: [],
+  dataBoMon: [],
+  page: 1,
+  isReload: false,
+  pageSize: 5,
 };
 
-const reducerMonHoc = (state, action) => {
-  let newState;
-
+const reducerMonHoc = (state = initDataMonHoc, action) => {
   switch (action.type) {
-    case RELOAD_DATA:
-      newState = {
-        ...state,
-        isReload: !state.isReload,
-      };
-      break;
-
     case SET_LOADING:
-      newState = {
+      return {
         ...state,
         isLoading: action.payload,
       };
-      break;
-
     case SET_KEYWORD:
-      newState = {
+      return {
         ...state,
         keyword: action.payload,
       };
-      break;
-
     case SET_PAGE:
-      newState = {
+      return {
         ...state,
         page: action.payload,
       };
-      break;
-
     case SET_PAGE_SIZE:
-      newState = {
+      return {
         ...state,
         pageSize: action.payload,
       };
-      break;
-
     case SET_TOTAL_ELEMENT:
-      newState = {
+      return {
         ...state,
         totalElements: action.payload,
       };
-      break;
-
     case SET_DATA:
-      newState = {
+      return {
         ...state,
         data: action.payload,
       };
-      break;
-
+    case SET_DATA_BO_MON:
+      return {
+        ...state,
+        dataBoMon: action.payload,
+      };
     case SHOW_MODAL_ADD:
-      newState = {
+      return {
         ...state,
         isShowAdd: action.payload,
       };
-      break;
-
     case SHOW_MODAL_EDIT:
-      newState = {
+      return {
         ...state,
         isShowEdit: action.payload,
       };
-      break;
-
+    case SHOW_MODAL_DETAIL:
+      return {
+        ...state,
+        isShowDetail: action.payload,
+      };
     case SET_TARGET:
-      newState = {
+      return {
         ...state,
         target: action.payload,
       };
-      break;
-
+    case SET_RELOAD:
+      return {
+        ...state,
+        isReload: action.payload,
+      };
     default:
-      break;
+      return state;
   }
-
-  return newState;
 };
 
 export default reducerMonHoc;

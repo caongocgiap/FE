@@ -2,78 +2,77 @@ import { Button, Form, Input, Select, Space, Modal, DatePicker } from "antd";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuildingCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { saveCoSoCon, updateCoSoCon } from "../../apis/QuanLyCoSoAPI";
+import { saveCoSoCon, updateCoSoCon } from "../../../apis/QuanLyCoSoAPI";
 import { useEffect } from "react";
 import dayjs from "dayjs";
 import moment from "moment";
-import { updateMonHoc } from "../../apis/QuanLyMonHocAPI";
+import { updateMonHoc } from "../../../apis/QuanLyMonHocAPI";
+import { setLoading, setReload, showModalEdit } from "../reducer/action";
+import { useQuanLyMonHoc } from "../context/MonHocContext";
 const { Option } = Select;
 
-const UpdateMonHoc = ({
-  isModalUpdateOpen,
-  setIsModalUpdateOpen,
-  data,
-  dataBoMon,
-  dataHinhThuc,
-}) => {
+const UpdateMonHoc = () => {
   const [form] = Form.useForm();
+  const { stateMonHoc, dispatchMonHoc, dataHinhThuc } = useQuanLyMonHoc();
 
   const handleCloseUpdateOpen = () => {
-    setIsModalUpdateOpen(false);
+    dispatchMonHoc(showModalEdit(false));
     form.resetFields();
   };
-
-  const hanleUpdate = async () => {
-    const formvalue = form.getFieldsValue();
+  const hanleUpdate = () => {
+    let formvalue = form.getFieldsValue();
     let thoiGianTao = formvalue.thoiGianTao.valueOf();
-    const boMonUpdatae =
-      data.boMon === formvalue.boMon ? data.idBoMon : formvalue.boMon;
+    let boMonUpdatae =
+      stateMonHoc.target.boMon === formvalue.boMon
+        ? stateMonHoc.target.idBoMon
+        : formvalue.boMon;
     const value = {
       ...formvalue,
       boMon: boMonUpdatae,
       thoiGianTao: thoiGianTao,
     };
-    console.log(boMonUpdatae);
-    try {
-      const res = await updateMonHoc({ ...value }, data.id);
-      // console.log(res);
-      if (res.data.httpStatus === "OK") {
+    dispatchMonHoc(setLoading(true)); // Bắt đầu loading trước khi gửi yêu cầu cập nhật
+    updateMonHoc({ ...value }, stateMonHoc.target.id)
+      .then((res) => {
+        dispatchMonHoc(setReload(true));
         toast.success(res.data.message, {
           position: "top-right",
           autoClose: 2000,
         });
         handleCloseUpdateOpen();
-      }
-    } catch (e) {
-      for (let message in e.response.data) {
-        toast.error(e.response.data[message]);
-      }
-    }
+      })
+      .catch((e) => {
+        for (let message in e.response.data) {
+          toast.error(e.response.data[message]);
+        }
+      })
+      .finally(() => {
+        dispatchMonHoc(setLoading(false)); // Dừng loading sau khi kết thúc quá trình cập nhật
+        dispatchMonHoc(setReload(false)); // Đặt lại trạng thái reloading sau khi hoàn tất cập nhật
+      });
   };
 
   useEffect(() => {
+    let value = stateMonHoc.target;
     const dateObject = moment(
-      data ? data.formattedThoiGianTao : "",
+      value ? value.formattedThoiGianTao : "",
       "DD/MM/YYYY"
     );
-
     form.setFieldsValue({
-      ten: data ? data.ten : "",
-      ma: data ? data.ma : "",
-      ten: data ? data.ten : "",
-      hinhThuc: data ? data.hinhThuc : "",
+      ten: value ? value.ten : "",
+      ma: value ? value.ma : "",
+      hinhThuc: value ? value.hinhThuc : "",
       thoiGianTao: dateObject,
-      boMon: data ? data.boMon : "",
+      boMon: value ? value.boMon : "",
     });
-  });
+  }, [stateMonHoc.isShowEdit]);
 
   return (
     <>
       <Modal
         title="Môn học chi tiết"
-        open={isModalUpdateOpen}
-        // onOk={handleOk}
-        onCancel={() => setIsModalUpdateOpen(false)}
+        visible={stateMonHoc.isShowEdit}
+        onCancel={() => dispatchMonHoc(showModalEdit(false))}
         footer={null}
       >
         <Form
@@ -113,11 +112,14 @@ const UpdateMonHoc = ({
               allowClear
               style={{ width: "100%" }}
               placeholder="Chọn kỳ OnBroad"
-              options={dataHinhThuc.map((item) => ({
-                label: item,
-                value: item,
-              }))}
-            />
+            >
+              {dataHinhThuc &&
+                dataHinhThuc.map((option) => (
+                  <Select.Option key={option} value={option}>
+                    {option}
+                  </Select.Option>
+                ))}
+            </Select>
           </Form.Item>
           <Form.Item
             name="boMon"
@@ -126,14 +128,14 @@ const UpdateMonHoc = ({
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 18 }}
           >
-            <Select
-              allowClear
-              style={{ width: "100%" }}
-              options={dataBoMon.map((item) => ({
-                label: item.ten,
-                value: item.id,
-              }))}
-            />
+            <Select allowClear style={{ width: "100%" }}>
+              {stateMonHoc.dataBoMon &&
+                stateMonHoc.dataBoMon.map((option) => (
+                  <Select.Option key={option.id} value={option.id}>
+                    {option.ten}
+                  </Select.Option>
+                ))}
+            </Select>
           </Form.Item>
           <Form.Item
             name="thoiGianTao"
