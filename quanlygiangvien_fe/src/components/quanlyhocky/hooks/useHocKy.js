@@ -38,7 +38,6 @@ export const useHocKy = () => {
         try {
             const response = await getHocKyByIdApi(idHocKy);
             setHocKy(response.data);
-            console.log(response.data);
         } catch (e) {
             console.log("Lỗi khi lấy dữ liệu từ API: ", e);
         }

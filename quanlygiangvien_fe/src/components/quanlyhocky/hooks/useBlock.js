@@ -10,7 +10,6 @@ export const useBlock = () => {
         try {
             const response = await getBlockByIdHocKyApi(idHocKy);
             setListBlockByIdHk(response.data)
-            console.log(response.data);
         } catch (e) {
             console.log('Lỗi khi lấy dữ liệu từ API: ', e);
         }
@@ -20,7 +19,6 @@ export const useBlock = () => {
         try {
             const response = await postBlockApi(data);
             if(response && response.status === 201) {
-                console.log(response.data);
             }
         } catch (e) {
             console.log('Thêm thất bại', e);

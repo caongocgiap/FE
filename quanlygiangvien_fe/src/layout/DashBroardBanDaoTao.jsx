@@ -35,7 +35,7 @@ const DashBroardBanDaoTao = ({ children }) => {
             //   label: "Quản lý cơ sở",
             // },
             {
-              key: "/",
+              key: "/bandaotao/quan-ly-co-so",
               icon: <UserOutlined />,
               label: "Quản lý cơ sở",
             },
@@ -64,6 +64,11 @@ const DashBroardBanDaoTao = ({ children }) => {
               icon: <UploadOutlined />,
               label: "Quản lý chức vụ",
             },
+            {
+              key: "/bandaotao/quan-ly-giao-vien-day-mon",
+              icon: <UploadOutlined />,
+              label: "Quản lý giáo viên dạy môn",
+            }
           ]}
         />
       </Sider>
