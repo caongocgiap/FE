@@ -29,11 +29,6 @@ const DashBroardBanDaoTao = ({ children }) => {
           defaultSelectedKeys={["1"]}
           onClick={({ key }) => handleMenuClick(key)}
           items={[
-            // {
-            //   key: "/bandaotao/quan-ly-co-so",
-            //   icon: <UserOutlined />,
-            //   label: "Quản lý cơ sở",
-            // },
             {
               key: "/bandaotao/quan-ly-co-so",
               icon: <UserOutlined />,
@@ -64,6 +59,11 @@ const DashBroardBanDaoTao = ({ children }) => {
               icon: <UploadOutlined />,
               label: "Quản lý chức vụ",
             },
+              {
+                  key: "/bandaotao/quan-ly-lop-mon",
+                  icon: <UploadOutlined />,
+                  label: "Quản lý lớp môn",
+              },
           ]}
         />
       </Sider>
