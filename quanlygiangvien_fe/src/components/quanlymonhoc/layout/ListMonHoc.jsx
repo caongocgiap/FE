@@ -75,7 +75,6 @@ const ListMonHoc = () => {
         }
       })
       .finally(() => {
-        console.log(stateMonHoc);
         dispatchMonHoc(setLoading(false)); // Dừng loading sau khi kết thúc quá trình cập nhật
         dispatchMonHoc(setReload(false)); // Đặt lại trạng thái reloading sau khi hoàn tất cập nhật
       });
@@ -86,36 +85,34 @@ const ListMonHoc = () => {
       title: "STT",
       dataIndex: "stt",
       key: "id",
-      width: "5%",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Mã môn học",
       dataIndex: "ma",
       key: "id",
-      width: "20%",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Tên môn học",
       dataIndex: "ten",
       key: "id",
       align: "center",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Hình thức",
       dataIndex: "hinhThuc",
       key: "id",
       align: "center",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Bộ môn",
       dataIndex: "boMon",
       key: "id",
       align: "center",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Trạng thái",
@@ -128,7 +125,7 @@ const ListMonHoc = () => {
             text === "MO" ? "green" : text === "DANG_DANG_KY" ? "yellow" : "red"
           }
         >
-          {text}
+          {text === "MO" ? "Mở" : text === "DANG_DANG_KY" ? "Đang đăng ký" : "Đóng"}
         </Tag>
       ),
     },
@@ -137,7 +134,7 @@ const ListMonHoc = () => {
       dataIndex: "formattedThoiGianTao",
       key: "id",
       align: "center",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Hành động",
@@ -216,7 +213,7 @@ const ListMonHoc = () => {
               color: "#ffff",
             }}
           ></Button>
-          <h4 className="p-2">Quản lý bộ môn</h4>
+          <h4 className="p-2">Quản lý môn học</h4>
         </div>
         <Button
           type="primary"

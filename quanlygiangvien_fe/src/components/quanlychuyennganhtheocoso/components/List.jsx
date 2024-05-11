@@ -1,5 +1,5 @@
 import { Card, Typography, Button, Flex, Table, Tag, Space, Tooltip, Popconfirm, message, Pagination } from "antd";
-import { 
+import {
     UnorderedListOutlined,
     PlusCircleFilled,
     DeleteFilled,
@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import { useQuanLyChuyenNganhTheoCoSo } from "../QuanLyChuyenNganhTheoCoSo";
-import { 
+import {
     showModalAdd,
     showModalEdit,
     setPage,
@@ -20,6 +20,7 @@ import {
 import getService from "../services/GetService";
 import deleteService from "../services/DeleteService";
 import { XOA_MEM } from "../../../apis/QuanLyChuyenNganhTheoCoSoAPI";
+import { CHUA_XOA_CONSTANT } from "../../../app/constant/StatusEntityConstant";
 
 const ListChuyenNganhTheoCoSo = () => {
 
@@ -114,16 +115,16 @@ const ListChuyenNganhTheoCoSo = () => {
                 <Space size="middle">
 
                     <Tooltip title="Cập nhật" color="blue">
-                        <Button 
+                        <Button
                             onClick={() => {
                                 handleEdit(o.id);
                             }}
-                            type="primary" 
+                            type="primary"
                             icon={<FormOutlined />}
                         ></Button>
                     </Tooltip>
 
-                    <Tooltip title={o.trangThai === "CHUA_XOA" ? "Xoá Mềm" : "Xoá vĩnh viễn"} color="red">
+                    <Tooltip title={o.trangThai === CHUA_XOA_CONSTANT ? "Ngưng hoạt động" : "Hoạt động lại"} color="red">
                         <Popconfirm
                             title="Thông báo"
                             description="Bạn có muốn xoá không?"
@@ -133,11 +134,11 @@ const ListChuyenNganhTheoCoSo = () => {
                             okText="Có"
                             cancelText="Không"
                         >
-                            <Button 
+                            <Button
                                 type="primary"
                                 icon={<DeleteFilled />}
                                 danger
-                            ></Button>                        
+                            ></Button>
                         </Popconfirm>
                     </Tooltip>
 
@@ -154,28 +155,28 @@ const ListChuyenNganhTheoCoSo = () => {
             }}
         >
             <Flex justify="space-between" align="center">
-                <Typography.Title level={4}><UnorderedListOutlined style={{marginRight: '0.5rem'}}/>Danh sách chuyên ngành theo cơ sở</Typography.Title>
+                <Typography.Title level={4}><UnorderedListOutlined style={{ marginRight: '0.5rem' }} />Danh sách chuyên ngành theo cơ sở</Typography.Title>
                 <Tooltip title="Thêm chuyên ngành theo cơ sở" color="blue">
-                    <Button 
-                        type="primary" 
-                        icon={<PlusCircleFilled />} 
-                        size="middle" 
+                    <Button
+                        type="primary"
+                        icon={<PlusCircleFilled />}
+                        size="middle"
                         color="#222"
                         onClick={e => {
                             dispatch(showModalAdd(true));
-                        }} />                     
+                        }} />
                 </Tooltip>
-               
+
             </Flex>
 
-            <Table 
-                columns={columns} 
-                dataSource={state.data || []} 
+            <Table
+                columns={columns}
+                dataSource={state.data || []}
                 pagination={false}
                 rowKey={o => o.stt}
-                style={{marginTop: '30px'}} 
+                style={{ marginTop: '30px' }}
                 loading={state.isLoading}
-                scroll={{x: 400}}
+                scroll={{ x: 400 }}
             />
 
 
@@ -185,7 +186,7 @@ const ListChuyenNganhTheoCoSo = () => {
                 pageSize={state.pageSize}
                 total={state.totalElements}
                 showTotal={(total, range) => `${range[0]}-${range[1]} của ${total} bộ môn`}
-                style={{ marginTop: '1rem', textAlign: 'right'}}
+                style={{ marginTop: '1rem', textAlign: 'right' }}
                 onChange={(page, pageSize) => {
                     dispatch(setPage(page));
                     dispatch(setPageSize(pageSize));

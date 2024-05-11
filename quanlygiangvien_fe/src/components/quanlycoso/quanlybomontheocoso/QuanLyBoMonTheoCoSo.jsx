@@ -69,7 +69,7 @@ const QuanLyBoMonTheoCoSo = ({
       dataIndex: "tenTruongBoMon",
       key: "idBoMonTheoCoSo",
       width: "20%",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <Tag color={text === null ? "red" : "green"}>{text === null ? "Chưa xác định" : text}</Tag>,
     },
     {
       title: "Trạng thái",

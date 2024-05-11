@@ -1,5 +1,5 @@
 import { Card, Typography, Button, Flex, Table, Tag, Space, Tooltip, Popconfirm, message, Pagination } from "antd";
-import { 
+import {
     UnorderedListOutlined,
     PlusCircleFilled,
     DeleteFilled,
@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import { useQuanLyBoMon } from "../../QuanLyBoMon";
-import { 
+import {
     showModalAdd,
     showModalEdit,
     setPage,
@@ -21,6 +21,7 @@ import {
 import getBoMonService from "../../services/bomon/GetBoMonService";
 import deleteBoMonService from "../../services/bomon/DeleteBoMonService";
 import { XOA_MEM } from "../../../../apis/QuanLyBoMonAPI";
+import { CHUA_XOA_CONSTANT } from "../../../../app/constant/StatusEntityConstant";
 
 const ListBoMon = () => {
 
@@ -98,16 +99,16 @@ const ListBoMon = () => {
                 <Space size="middle">
 
                     <Tooltip title="Cập nhật" color="blue">
-                        <Button 
+                        <Button
                             onClick={() => {
                                 handleEdit(o.id);
                             }}
-                            type="primary" 
+                            type="primary"
                             icon={<FormOutlined />}
                         ></Button>
                     </Tooltip>
 
-                    <Tooltip title={o.trangThai === "CHUA_XOA" ? "Xoá Mềm" : "Xoá vĩnh viễn"} color="red">
+                    <Tooltip title={o.trangThai === CHUA_XOA_CONSTANT ? "Ngưng hoạt động" : "Hoạt động lại"} color="red">
                         <Popconfirm
                             title="Thông báo"
                             description="Bạn có muốn xoá không?"
@@ -117,11 +118,11 @@ const ListBoMon = () => {
                             okText="Có"
                             cancelText="Không"
                         >
-                            <Button 
+                            <Button
                                 type="primary"
                                 icon={<DeleteFilled />}
                                 danger
-                            ></Button>                        
+                            ></Button>
                         </Popconfirm>
                     </Tooltip>
 
@@ -138,28 +139,28 @@ const ListBoMon = () => {
             }}
         >
             <Flex justify="space-between" align="center">
-                <Typography.Title level={4}><UnorderedListOutlined style={{marginRight: '0.5rem'}}/>Danh sách bộ môn</Typography.Title>
+                <Typography.Title level={4}><UnorderedListOutlined style={{ marginRight: '0.5rem' }} />Danh sách bộ môn</Typography.Title>
                 <Tooltip title="Thêm bộ môn" color="blue">
-                    <Button 
-                        type="primary" 
-                        icon={<PlusCircleFilled />} 
-                        size="middle" 
+                    <Button
+                        type="primary"
+                        icon={<PlusCircleFilled />}
+                        size="middle"
                         color="#222"
                         onClick={e => {
                             dispatchBoMon(showModalAdd(true));
-                        }} />                     
+                        }} />
                 </Tooltip>
-               
+
             </Flex>
 
-            <Table 
-                columns={columns} 
-                dataSource={stateBoMon.data || []} 
+            <Table
+                columns={columns}
+                dataSource={stateBoMon.data || []}
                 pagination={false}
                 rowKey={o => o.stt}
-                style={{marginTop: '30px'}} 
+                style={{ marginTop: '30px' }}
                 loading={stateBoMon.isLoading}
-                scroll={{x: 400}}
+                scroll={{ x: 400 }}
             />
 
 
@@ -169,7 +170,7 @@ const ListBoMon = () => {
                 pageSize={stateBoMon.pageSize}
                 total={stateBoMon.totalElements}
                 showTotal={(total, range) => `${range[0]}-${range[1]} của ${total} bộ môn`}
-                style={{ marginTop: '1rem', textAlign: 'right'}}
+                style={{ marginTop: '1rem', textAlign: 'right' }}
                 onChange={(page, pageSize) => {
                     dispatchBoMon(setPage(page));
                     dispatchBoMon(setPageSize(pageSize));

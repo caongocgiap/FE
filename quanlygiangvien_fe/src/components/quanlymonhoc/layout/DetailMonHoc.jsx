@@ -1,28 +1,22 @@
-import { Button, Form, Input, Select, Space, Modal, DatePicker } from "antd";
-import { toast } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBuildingCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { saveCoSoCon, updateCoSoCon } from "../../../apis/QuanLyCoSoAPI";
+import { Form, Input, Select, Modal, DatePicker } from "antd";
 import { useEffect } from "react";
-import dayjs from "dayjs";
 import moment from "moment";
 import { useQuanLyMonHoc } from "../context/MonHocContext";
 import { showModalDetail } from "../reducer/action";
 const { Option } = Select;
 
-const DetailMonHoc = ({}) => {
+const DetailMonHoc = ({ }) => {
   const [form] = Form.useForm();
   const { stateMonHoc, dispatchMonHoc, dataHinhThuc } = useQuanLyMonHoc();
 
   useEffect(() => {
-    console.log(stateMonHoc);
     let value = stateMonHoc.target;
     const dateObject = moment(
       value ? value.formattedThoiGianTao : "",
       "DD/MM/YYYY"
     );
     const valueForm = {
-      ...stateMonHoc.target,
+      ...value,
       formattedThoiGianTao: dateObject,
     };
     form.setFieldsValue(valueForm);

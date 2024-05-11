@@ -11,7 +11,7 @@ const QuanLyMonHoc = () => {
   return (
     <Container>
       <h2 className="text-primary-emphasis p-4 gap-3 d-flex align-items-center">
-        Quản lý bộ môn
+        Quản lý môn học
       </h2>
       {/* Đảm bảo rằng MonHocProvider được bao bọc bên ngoài component QuanLyMonHoc */}
       <MonHocProvider>

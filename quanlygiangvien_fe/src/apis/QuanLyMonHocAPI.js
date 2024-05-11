@@ -7,8 +7,6 @@ const fetchAllMonHoc = (keyword, page, pageSize) => {
         .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
         .join("&")
     : "";
-  // console.log(page);
-  // console.log(pageSize);
   let res = axios.get(
     `/api/monHoc?pageNo=${page}&pageSize=${pageSize}&${search}`
   );

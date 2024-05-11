@@ -2,12 +2,10 @@ import { Button, Form, Input, Select, Space, Modal, DatePicker } from "antd";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuildingCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { saveCoSoCon, updateCoSoCon } from "../../../apis/QuanLyCoSoAPI";
 import { useEffect } from "react";
-import dayjs from "dayjs";
 import moment from "moment";
 import { updateMonHoc } from "../../../apis/QuanLyMonHocAPI";
-import { setLoading, setReload, showModalEdit } from "../reducer/action";
+import { setData, setLoading, setReload, showModalEdit } from "../reducer/action";
 import { useQuanLyMonHoc } from "../context/MonHocContext";
 const { Option } = Select;
 
@@ -19,7 +17,7 @@ const UpdateMonHoc = () => {
     dispatchMonHoc(showModalEdit(false));
     form.resetFields();
   };
-  const hanleUpdate = () => {
+  const handleUpdate = () => {
     let formvalue = form.getFieldsValue();
     let thoiGianTao = formvalue.thoiGianTao.valueOf();
     let boMonUpdatae =
@@ -34,11 +32,13 @@ const UpdateMonHoc = () => {
     dispatchMonHoc(setLoading(true)); // Bắt đầu loading trước khi gửi yêu cầu cập nhật
     updateMonHoc({ ...value }, stateMonHoc.target.id)
       .then((res) => {
-        dispatchMonHoc(setReload(true));
+        dispatchMonHoc(setReload(!stateMonHoc.isReload));
         toast.success(res.data.message, {
           position: "top-right",
           autoClose: 2000,
         });
+        // fetchAllMonHoc().then(res =)
+        dispatchMonHoc(setData([]));
         handleCloseUpdateOpen();
       })
       .catch((e) => {
@@ -48,7 +48,6 @@ const UpdateMonHoc = () => {
       })
       .finally(() => {
         dispatchMonHoc(setLoading(false)); // Dừng loading sau khi kết thúc quá trình cập nhật
-        dispatchMonHoc(setReload(false)); // Đặt lại trạng thái reloading sau khi hoàn tất cập nhật
       });
   };
 
@@ -80,7 +79,7 @@ const UpdateMonHoc = () => {
           name="control-hooks"
           style={{ maxWidth: 600 }}
           labelAlign="left"
-          onFinish={hanleUpdate}
+          onFinish={handleUpdate}
         >
           <Form.Item
             name="ma"

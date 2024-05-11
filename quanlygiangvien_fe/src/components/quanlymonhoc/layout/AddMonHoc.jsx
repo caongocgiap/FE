@@ -39,7 +39,6 @@ const AddMonHoc = () => {
         }
       })
       .catch((e) => {
-        console.log(e.response.data);
         for (let message in e.response.data) {
           toast.error(e.response.data[message]);
         }

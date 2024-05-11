@@ -1,5 +1,5 @@
 import { Card, Typography, Button, Flex, Table, Tag, Space, Tooltip, Popconfirm, message, Pagination } from "antd";
-import { 
+import {
     UnorderedListOutlined,
     PlusCircleFilled,
     DeleteFilled,
@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import { useQuanLyBoMon } from "../../QuanLyBoMon";
-import { 
+import {
     showModalAdd,
     showModalEdit,
     setPage,
@@ -30,7 +30,7 @@ const ListChuyenNganh = () => {
         dispatchChuyenNganh(setTarget(null));
         dispatchChuyenNganh(setLoading(true));
         getChuyenNganhService(id)
-            .then(async(response) => {
+            .then(async (response) => {
                 await dispatchChuyenNganh(setTarget(response));
                 console.log(response);
                 console.log(stateChuyenNganh.target)
@@ -99,16 +99,16 @@ const ListChuyenNganh = () => {
                 <Space size="middle">
 
                     <Tooltip title="Cập nhật" color="blue">
-                        <Button 
+                        <Button
                             onClick={() => {
                                 handleEdit(o.id);
                             }}
-                            type="primary" 
+                            type="primary"
                             icon={<FormOutlined />}
                         ></Button>
                     </Tooltip>
 
-                    <Tooltip title={o.trangThai === XOA_MEM.chua_xoa ? "Xoá Mềm" : "Xoá vĩnh viễn"} color="red">
+                    <Tooltip title={o.trangThai === XOA_MEM.chua_xoa ? "Ngưng hoạt động" : "Hoạt động lại"} color="red">
                         <Popconfirm
                             title="Thông báo"
                             description="Bạn có muốn xoá không?"
@@ -118,11 +118,11 @@ const ListChuyenNganh = () => {
                             okText="Có"
                             cancelText="Không"
                         >
-                            <Button 
+                            <Button
                                 type="primary"
                                 icon={<DeleteFilled />}
                                 danger
-                            ></Button>                        
+                            ></Button>
                         </Popconfirm>
                     </Tooltip>
 
@@ -139,28 +139,28 @@ const ListChuyenNganh = () => {
             }}
         >
             <Flex justify="space-between" align="center">
-                <Typography.Title level={4}><UnorderedListOutlined style={{marginRight: '0.5rem'}}/>Danh sách chuyên ngành</Typography.Title>
+                <Typography.Title level={4}><UnorderedListOutlined style={{ marginRight: '0.5rem' }} />Danh sách chuyên ngành</Typography.Title>
                 <Tooltip title="Thêm chuyên ngành" color="blue">
-                    <Button 
-                            type="primary" 
-                            icon={<PlusCircleFilled />} 
-                            size="middle" 
-                            color="#222"
-                            onClick={e => {
-                                dispatchChuyenNganh(showModalAdd(true));
-                            }} />                     
+                    <Button
+                        type="primary"
+                        icon={<PlusCircleFilled />}
+                        size="middle"
+                        color="#222"
+                        onClick={e => {
+                            dispatchChuyenNganh(showModalAdd(true));
+                        }} />
                 </Tooltip>
-                
+
             </Flex>
 
-            <Table 
-                columns={columns} 
-                dataSource={stateChuyenNganh.data || []} 
+            <Table
+                columns={columns}
+                dataSource={stateChuyenNganh.data || []}
                 pagination={false}
                 rowKey={o => o.stt}
-                style={{marginTop: '30px'}} 
+                style={{ marginTop: '30px' }}
                 loading={stateChuyenNganh.isLoading}
-                scroll={{x: 400}}
+                scroll={{ x: 400 }}
             />
 
 
@@ -170,7 +170,7 @@ const ListChuyenNganh = () => {
                 pageSize={stateChuyenNganh.pageSize}
                 total={stateChuyenNganh.totalElements}
                 showTotal={(total, range) => `${range[0]}-${range[1]} của ${total} chuyên ngành`}
-                style={{ marginTop: '1rem', textAlign: 'right'}}
+                style={{ marginTop: '1rem', textAlign: 'right' }}
                 onChange={(page, pageSize) => {
                     dispatchChuyenNganh(setPage(page));
                     dispatchChuyenNganh(setPageSize(pageSize));

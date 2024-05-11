@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, DatePicker } from "antd";
+import { Button, Form, Input, Select, DatePicker, Row, Col } from "antd";
 import moment from "moment";
 import { Container } from "react-bootstrap";
 import { useQuanLyMonHoc } from "../context/MonHocContext";
@@ -37,69 +37,83 @@ const SearchBarMonHoc = () => {
         form={form}
         name="control-hooks"
         onFinish={() => handleTimKiem}
-        style={{ maxWidth: 600 }}
+        style={{
+          width: "100%"
+        }}
+        className={"d-flex align-items-center justify-content-between mt-3"}
       >
         <div
-          className={"d-flex align-items-center justify-content-between mt-3"}
-          style={{ width: "1200px" }}
+          style={{
+            width: "100%"
+          }}
         >
-          <Form.Item name="ma" label="Mã">
-            <Input name="ma" style={{ width: "120px" }} />
-          </Form.Item>
-          <Form.Item name="ten" label="Tên">
-            <Input name="ten" style={{ width: "120px" }} />
-          </Form.Item>
-          <Form.Item name="boMon" label="Bộ môn">
-            <Select placeholder="Chọn bộ môn" style={{ width: "150px" }}>
-              {stateMonHoc.dataBoMon &&
-                stateMonHoc.dataBoMon.map((option) => (
-                  <Option key={option.id} value={option.id}>
-                    {option.ten}
-                  </Option>
-                ))}
-            </Select>
-          </Form.Item>
-          <Form.Item name="trangThai" label="Trạng thái">
-            <Select placeholder="Chọn trạng thái" style={{ width: "150px" }}>
-              {dataTrangThai &&
-                dataTrangThai.map((option) => (
-                  <Option key={option} value={option}>
-                    {option}
-                  </Option>
-                ))}
-            </Select>
-          </Form.Item>
-          <Form.Item name="ngayBatDau" label="Ngày bắt đầu">
-            <DatePicker
-              format={"DD/MM/YYYY"}
-              style={{ width: "100%" }}
-              onChange={handleDateChange}
-            />
-          </Form.Item>
+          <Row style={{
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
+            <Col span={11}>
+              <Form.Item name="ma" label="Mã">
+                <Input name="ma" placeholder="Nhập mã môn học" />
+              </Form.Item>
+            </Col>
+            <Col span={11} style={{
+              marginLeft: "20px"
+            }}>
+              <Form.Item name="ten" label="Tên">
+                <Input name="ten" placeholder="Nhập tên môn học" />
+              </Form.Item>
+            </Col>
+            <Col span={11}>
+              <Form.Item name="boMon" label="Bộ môn">
+                <Select placeholder="Chọn bộ môn">
+                  {stateMonHoc.dataBoMon &&
+                    stateMonHoc.dataBoMon.map((option) => (
+                      <Option key={option.id} value={option.id}>
+                        {option.ten}
+                      </Option>
+                    ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={11} style={{
+              marginLeft: "20px"
+            }}>
+              <Form.Item name="trangThai" label="Trạng thái">
+                <Select placeholder="Chọn trạng thái">
+                  {dataTrangThai &&
+                    dataTrangThai.map((option) => (
+                      <Option key={option} value={option}>
+                        {option === "MO" ? "Mở" : option === "DANG_DANG_KY" ? "Đang đăng ký" : "Đóng"}
+                      </Option>
+                    ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Form.Item>
+              <Button
+                htmlType="submit"
+                style={{
+                  backgroundColor: "#052C65",
+                  color: "#ffff",
+                  marginRight: "10px",
+                }}
+                onClick={handleTimKiem}
+              >
+                Tìm kiếm
+              </Button>
+              <Button
+                htmlType="submit"
+                style={{
+                  backgroundColor: "#052C65",
+                  color: "#ffff",
+                }}
+                onClick={handleReset}
+              >
+                Làm mới
+              </Button>
+            </Form.Item>
+          </Row>
         </div>
-        <Form.Item>
-          <Button
-            htmlType="submit"
-            style={{
-              backgroundColor: "#052C65",
-              color: "#ffff",
-              marginRight: "10px",
-            }}
-            onClick={handleTimKiem}
-          >
-            Tìm kiếm
-          </Button>
-          <Button
-            htmlType="submit"
-            style={{
-              backgroundColor: "#052C65",
-              color: "#ffff",
-            }}
-            onClick={handleReset}
-          >
-            Làm mới
-          </Button>
-        </Form.Item>
       </Form>
     </Container>
   );

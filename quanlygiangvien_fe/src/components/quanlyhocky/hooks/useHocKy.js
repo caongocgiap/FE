@@ -25,7 +25,6 @@ export const useHocKy = () => {
                 setTableLoading(false);
             } catch (e) {
                 setTableLoading(false);
-                console.log("Lỗi khi lấy dữ liệu từ API: ", e);
             }
         }, [100])
     }
