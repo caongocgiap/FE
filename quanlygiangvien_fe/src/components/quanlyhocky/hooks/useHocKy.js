@@ -55,6 +55,6 @@ export const useHocKy = () => {
     }
 
     return {
-        pageNum, listHocKy,setListHocKy, totalPage, pageSize, tableLoading, hocKy, getPaggingHocKy, getHocKyById, postHocKy
+        pageNum, listHocKy, setListHocKy, totalPage, pageSize, tableLoading, hocKy, getPaggingHocKy, getHocKyById, postHocKy
     }
 }
