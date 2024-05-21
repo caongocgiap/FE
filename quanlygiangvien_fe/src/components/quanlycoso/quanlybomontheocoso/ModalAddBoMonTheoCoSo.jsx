@@ -148,7 +148,7 @@ const ModalAddBoMonTheoCoSo = ({
           <Form.Item
             name="idTruongBoMon"
             label="Trưởng bộ môn"
-            rules={[{ required: true }]}
+            // rules={[{ required: true }]}
           >
             <Select
               showSearch

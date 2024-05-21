@@ -10,29 +10,30 @@ export const useHocKy = () => {
 
     const [pageSize, setPageSize] = useState(0);
 
+    const [pageNum, setPageNum] = useState(0);
+
     const [tableLoading, setTableLoading] = useState(false);
 
     const [hocKy, setHocKy] = useState([])
 
     const getPaggingHocKy = async (page) => {
         setTableLoading(true);
+        setPageNum(page);
         setTimeout(async () => {
             try {
                 const response = await getHocKyApi(page);
                 setListHocKy(response.data.content);
                 setTotalPage(response.data.totalElements);
                 setPageSize(response.data.size);
-                setTableLoading(false);
             } catch (e) {
-                setTableLoading(false);
-                console.log("Lỗi khi lấy dữ liệu từ API: ", e);
             }
-        }, [100])
+        }, [])
+        setTableLoading(false);
     }
 
     useEffect(() => {
-        getPaggingHocKy(0);
-    }, [])
+        getPaggingHocKy(pageNum);
+    }, [tableLoading])
 
     const getHocKyById = async (idHocKy) => {
         try {
@@ -53,6 +54,6 @@ export const useHocKy = () => {
     }
 
     return {
-        listHocKy, totalPage, pageSize, tableLoading, hocKy, getPaggingHocKy, getHocKyById, postHocKy
+        pageNum, listHocKy, setListHocKy, totalPage, pageSize, tableLoading, hocKy, getPaggingHocKy, getHocKyById, postHocKy
     }
 }

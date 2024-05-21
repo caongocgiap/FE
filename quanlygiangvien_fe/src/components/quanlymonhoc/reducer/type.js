@@ -1,0 +1,13 @@
+export const SET_DATA = "SET_DATA";
+export const SET_DATA_BO_MON = "SET_DATA_BO_MON";
+export const SET_DATA_HINH_THUC = "SET_DATA_HINH_THUC";
+export const SHOW_MODAL_ADD = "SHOW_MODAL_ADD";
+export const SHOW_MODAL_EDIT = "SHOW_MODAL_EDIT";
+export const SHOW_MODAL_DETAIL = "SHOW_MODAL_DETAIL";
+export const SET_TARGET = "SET_TARGET";
+export const SET_LOADING = "SET_LOADING";
+export const SET_RELOAD = "SET_RELOAD";
+export const SET_KEYWORD = "SET_KEYWORD";
+export const SET_PAGE = "SET_PAGE";
+export const SET_PAGE_SIZE = "SET_PAGE_SIZE";
+export const SET_TOTAL_ELEMENT = "SET_TOTAL_ELEMENT";

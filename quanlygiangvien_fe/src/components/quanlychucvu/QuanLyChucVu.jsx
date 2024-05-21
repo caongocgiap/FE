@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Modal, Tag } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuildingCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Container } from "react-bootstrap";
@@ -15,6 +15,7 @@ import ModalAddChucVu from "./ModalAddChucVu";
 import { fetchAllCoSo } from "../../apis/QuanLyCoSoAPI";
 import ModalUpdateChucVu from "./ModalUpdateChucVu";
 import SearchBar from "../component/SearchBarInputSelect";
+import { CHUA_XOA_CONSTANT } from "../../app/constant/StatusEntityConstant";
 
 const QuanLyChucVu = () => {
   const [dataTimKiem, setDataTimKiem] = useState({
@@ -48,11 +49,18 @@ const QuanLyChucVu = () => {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "TenCoSo",
+      title: "Tên Cơ Sở",
       dataIndex: "tenCoSo",
       key: "idChucVu",
       align: "center",
       render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Trạng Thái",
+      dataIndex: "trangThai",
+      key: "trangThai",
+      align: "center",
+      render: (text) => <Tag color={text === CHUA_XOA_CONSTANT ? "green" : "red"}>{text === CHUA_XOA_CONSTANT ? "Hoạt động" : "Ngưng hoạt động"}</Tag>,
     },
     {
       title: "Hành động",
@@ -120,36 +128,16 @@ const QuanLyChucVu = () => {
       if (res.data.httpStatus === "OK") {
         toast.success(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
         });
         setDeleteItemId(null);
       } else if (res.data.httpStatus === "NOT_ACCEPTABLE") {
         toast.warning(res.data.message, {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
         });
       } else {
         toast.error(res.data.message, {
           position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
         });
       }
     } catch (error) {
@@ -160,55 +148,7 @@ const QuanLyChucVu = () => {
   const handleUpdateChucVu = (row) => {
     setIsModalUpdateChucVuOpen(true);
     setDataUpdateChucVu(row);
-    console.log(row);
-    console.log(dataUpdateChucVu);
   };
-
-  // const handleUpdateXoaMemCoSo = async (row) => {
-  //   // const formValue = await form.getFieldsValue().tenCoSo;
-  //   // console.log(formValue);
-  //   setDataUpdateCoSo(row);
-  //   try {
-  //     const res = await updateXoaMemCoSo(row);
-  //     console.log(res.data);
-  //     if (res.data.httpStatus === "OK") {
-  //       toast.success(res.data.message, {
-  //         position: "top-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "light",
-  //       });
-  //     } else if (res.data.httpStatus === "NOT_ACCEPTABLE") {
-  //       toast.warning(res.data.message, {
-  //         position: "top-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "light",
-  //       });
-  //     } else {
-  //       toast.error(res.data.message, {
-  //         position: "top-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "light",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //   }
-  // };
 
   useEffect(() => {
     // Hàm gọi fetchAllProducts khi pageNo hoặc pageSize thay đổi
@@ -287,12 +227,12 @@ const QuanLyChucVu = () => {
       ></ModalUpdateChucVu>
 
       <Modal
-        title="Xác nhận xóa"
+        title="Xác nhận"
         visible={deleteItemId !== null}
         onCancel={() => setDeleteItemId(null)}
         onOk={handelDeletedChucVu}
       >
-        <p>Bạn có chắc muốn xóa chức vụ này?</p>
+        <p>Bạn có chắc muốn thay đổi trạng thái của chức vụ này?</p>
       </Modal>
     </>
   );

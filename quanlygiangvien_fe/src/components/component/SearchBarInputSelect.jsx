@@ -59,7 +59,7 @@ const SearchBar = ({
         >
           <Form.Item
             name={field2}
-            label="Tên chức vụ"
+            label="Tên bộ môn"
             style={{ marginRight: "150px" }}
           >
             <Input
@@ -74,8 +74,8 @@ const SearchBar = ({
               style={{ width: "500px" }}
               name={field1}
               onChange={(e) => onChangeSelect(e)}
-              //   onChange={onGenderChange}
-              //   allowClear
+            //   onChange={onGenderChange}
+            //   allowClear
             >
               {dataCoSo.map((option) => (
                 <Option key={option.idCoSo} value={option.idCoSo}>
